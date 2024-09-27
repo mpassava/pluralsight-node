@@ -7,6 +7,7 @@ const debug = debugModule('app');
 const app = express();
 
 app.use(morgan('tiny'));
+app.use(express.static(`${import.meta.dirname}/public/`));
 
 app.get('/', (req, res) => {
   res.send('Hello');
