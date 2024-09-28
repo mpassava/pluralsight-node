@@ -1,7 +1,7 @@
 import express from "express";
 import debugModule from "debug";
 import { ObjectId } from "mongodb";
-import { closeDB, connectToDB } from "../../utils/db.js";
+import { closeDB, connectToDB } from "../config/db.js";
 
 const sessionsRouter = express.Router();
 const debug = debugModule("app:sesssionsRouter");
