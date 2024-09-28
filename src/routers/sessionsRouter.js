@@ -1,16 +1,44 @@
 import express from "express";
-import sessions from '../data/sessions.json' with { type: 'json' };
+import debugModule from "debug";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 const sessionsRouter = express.Router();
+const debug = debugModule("app:sesssionsRouter");
 
 sessionsRouter.route("/").get((req, res) => {
-  res.render("sessions", { sessions });
+  const uri = `mongodb+srv://mpassava:${process.env.DB_PASS}@globomantics.lysj1.mongodb.net/?retryWrites=true&w=majority&appName=Globomantics`;
+  const dbName = "globomantics";
+
+  (async function mongo() {
+    let client;
+    try {
+      client = new MongoClient(uri, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        },
+      });
+      await client.connect();
+      debug("Connected to mongo DB");
+
+      const db = client.db(dbName);
+
+      const sessions = await db.collection("sessions").find().toArray();
+
+      res.render("sessions", { sessions });
+    } catch (err) {
+      debug(err.stack);
+    } finally {
+      await client.close();
+    }
+  })();
 });
 
 sessionsRouter.route("/:id").get((req, res) => {
   const id = req.params.id;
-  res.render('session', {
-    session: sessions[id]
+  res.render("session", {
+    session: sessions[id],
   });
 });
 
