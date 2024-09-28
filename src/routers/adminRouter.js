@@ -1,7 +1,7 @@
 import express from "express";
 import debugModule from "debug";
 import { MongoClient, ServerApiVersion } from "mongodb";
-import sessions from '../data/sessions.json' with { type: 'json' };
+// import sessions from '../data/sessions.json' with { type: 'json' };
 
 const adminRouter = express.Router();
 const debug = debugModule("app:adminRouter");
