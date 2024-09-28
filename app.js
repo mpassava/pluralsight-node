@@ -5,6 +5,7 @@ import morgan from "morgan";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import passportConfig from "./src/config/passport.js";
 import { adminRouter, sessionsRouter, authRouter } from "./src/routers/index.js";
 
 const PORT = process.env.PORT || 3000;
@@ -22,7 +23,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// require('.src.config/passport.js')(app);
+passportConfig(app);
 
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
