@@ -2,7 +2,7 @@ import express from "express";
 import chalk from "chalk";
 import debugModule from "debug";
 import morgan from "morgan";
-import sessionsRouter from "./src/routers/sessionsRouter.js";
+import { adminRouter, sessionsRouter } from "./src/routers/index.js";
 
 const PORT = process.env.PORT || 3000;
 const debug = debugModule("app");
@@ -15,6 +15,7 @@ app.set("views", "./src/views");
 app.set("view engine", "ejs");
 
 app.use("/sessions", sessionsRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Globomantics", data: ["a", "b", "c"] });
