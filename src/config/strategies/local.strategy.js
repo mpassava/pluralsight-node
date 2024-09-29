@@ -6,7 +6,7 @@ export default function localStrategy() {
     usernameField: 'username',
     password: 'password'
   }, (username, password, done) => {
-    const user = {username, password, 'name': 'Mike'};
+    const user = {username, password, 'strategy': 'local'};
     done(null, user);
   }))
 }

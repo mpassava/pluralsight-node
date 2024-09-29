@@ -6,6 +6,14 @@ import { closeDB, connectToDB } from "../config/db.js";
 const sessionsRouter = express.Router();
 const debug = debugModule("app:sesssionsRouter");
 
+sessionsRouter.use((req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect("/auth/signIn");
+  }
+});
+
 sessionsRouter.route("/").get((req, res) => {
   (async function mongo() {
     try {
@@ -30,7 +38,9 @@ sessionsRouter.route("/:id").get((req, res) => {
       const db = await connectToDB();
       debug("Connected to mongo DB");
 
-      const session = await db.collection("sessions").findOne({ _id: new ObjectId(id) });
+      const session = await db
+        .collection("sessions")
+        .findOne({ _id: new ObjectId(id) });
 
       res.render("session", { session });
     } catch (err) {
