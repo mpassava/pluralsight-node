@@ -2,6 +2,7 @@ import express from "express";
 import debugModule from "debug";
 import { ObjectId } from "mongodb";
 import { closeDB, connectToDB } from "../config/db.js";
+import speakerService from "../services/speakerService.js";
 
 const sessionsRouter = express.Router();
 const debug = debugModule("app:sesssionsRouter");
@@ -42,6 +43,11 @@ sessionsRouter.route("/:id").get((req, res) => {
         .collection("sessions")
         .findOne({ _id: new ObjectId(id) });
 
+      const speaker = await speakerService.getSpeakerById(
+        session.speakers[0].id
+      );
+
+      session.speaker = speaker.data;
       res.render("session", { session });
     } catch (err) {
       debug(err.stack);
