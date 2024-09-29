@@ -2,7 +2,6 @@ import express from "express";
 import chalk from "chalk";
 import debugModule from "debug";
 import morgan from "morgan";
-import passport from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import passportConfig from "./src/config/passport.js";
